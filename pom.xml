@@ -4,7 +4,7 @@
 
 	<groupId>com.appleframework.jms</groupId>
 	<artifactId>apple-jms</artifactId>
-	<version>0.0.6.RELEASE</version>
+	<version>0.1.0.RELEASE</version>
 	<packaging>pom</packaging>
 
 	<name>apple-jms</name>
@@ -12,13 +12,22 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.version>0.0.6.RELEASE</project.version>
+		<project.version>0.1.0.RELEASE</project.version>
 		<log4j.version>1.2.16</log4j.version>
-		<spring.version>4.0.5.RELEASE</spring.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
+		<junit.version>4.12</junit.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+		
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+		
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
@@ -29,6 +38,14 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jms</artifactId>
 				<version>${spring.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			
 			<dependency>
@@ -43,17 +60,18 @@
 				<artifactId>geronimo-jms_1.1_spec</artifactId>
 				<version>1.1.1</version>
 			</dependency>
+						
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
 		<module>apple-jms-core</module>
+		<module>apple-jms-spring</module>
 		<module>apple-jms-activemq</module>
-    	<module>apple-jms-kafka</module>
-    	<module>apple-jms-rabbit</module>
     	<module>apple-jms-rocketmq</module>
+    	<module>apple-jms-kafka</module>
     	<module>apple-jms-ons</module>
-  </modules>
+  	</modules>
 	
 	<build>
 		<plugins>
@@ -118,11 +136,11 @@
 			</activation>
 			<distributionManagement>
 				<repository>
-					<id>internal.repo.release</id>
+					<id>nexus-releases</id>
 					<url>http://mvnrepo.appleframework.com/nexus/content/repositories/releases/</url>
 				</repository>
 				<snapshotRepository>
-					<id>internal.repo.snapshot</id>
+					<id>nexus-snapshots</id>
 					<url>http://mvnrepo.appleframework.com/nexus/content/repositories/snapshots/</url>
 				</snapshotRepository>
 			</distributionManagement>

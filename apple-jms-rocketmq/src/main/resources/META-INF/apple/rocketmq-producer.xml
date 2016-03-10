@@ -12,7 +12,6 @@
     <bean id="messageProducer" class="com.appleframework.jms.rocketmq.producer.RocketMessageProducer">
 		<property name="producer" ref="producer" />
 		<property name="topic" value="${producer.topic}" />
-		<property name="tags" value="${producer.tags}" /> 
 	</bean>
 	
 </beans>

@@ -2,7 +2,7 @@ package com.appleframework.jms.core.producer;
 
 import java.io.Serializable;
 
-import org.springframework.jms.JmsException;
+import com.appleframework.jms.core.exception.JmsException;
 
 /**
  * 队列消息发送接口

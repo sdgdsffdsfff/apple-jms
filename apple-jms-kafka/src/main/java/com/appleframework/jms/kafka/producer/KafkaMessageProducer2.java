@@ -5,16 +5,16 @@ import java.io.Serializable;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 
-import org.springframework.jms.JmsException;
-
-import com.appleframework.jms.core.producer.MessageProducer;
+import com.appleframework.jms.core.exception.JmsException;
+import com.appleframework.jms.core.exception.MQException;
+import com.appleframework.jms.core.producer.MessageProducer2;
 import com.appleframework.jms.core.utils.ByteUtils;
 
 /**
  * @author Cruise.Xu
  * 
  */
-public class KafkaMessageProducer2 implements MessageProducer {
+public class KafkaMessageProducer2 implements MessageProducer2 {
 
 	private Producer<String, byte[]> producer;
 	private String topic;
@@ -27,24 +27,37 @@ public class KafkaMessageProducer2 implements MessageProducer {
 		this.topic = topic;
 	}
 	
-	public void sendByte(byte[] message) throws JmsException {
-		KeyedMessage<String, byte[]> producerData 
-			= new KeyedMessage<String, byte[]>(topic, "0", message);
-		producer.send(producerData);
+	@Override
+	public void sendByte(String key, byte[] message) throws JmsException {
+		try {
+			KeyedMessage<String, byte[]> producerData 
+				= new KeyedMessage<String, byte[]>(topic, key, message);
+			producer.send(producerData);
+		} catch (Exception e) {
+			throw new MQException(e);
+		}
 	}
 
 	@Override
-	public void sendObject(Serializable message) throws JmsException {
-		KeyedMessage<String, byte[]> producerData 
-			= new KeyedMessage<String, byte[]>(topic, "0", ByteUtils.toBytes(message));
-		producer.send(producerData);
+	public void sendObject(String key, Serializable message) throws JmsException {
+		try {
+			KeyedMessage<String, byte[]> producerData 
+				= new KeyedMessage<String, byte[]>(topic, key, ByteUtils.toBytes(message));
+			producer.send(producerData);
+		} catch (Exception e) {
+			throw new MQException(e);
+		}
 	}
 
 	@Override
-	public void sendText(String message) throws JmsException {
-		KeyedMessage<String, byte[]> producerData 
-			= new KeyedMessage<String, byte[]>(topic, "0", ByteUtils.toBytes(message));
-		producer.send(producerData);
+	public void sendText(String key, String message) throws JmsException {
+		try {
+			KeyedMessage<String, byte[]> producerData 
+				= new KeyedMessage<String, byte[]>(topic, key, ByteUtils.toBytes(message));
+			producer.send(producerData);
+		} catch (Exception e) {
+			throw new MQException(e);
+		}
 	}	
 
 }
